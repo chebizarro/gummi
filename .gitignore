@@ -29,3 +29,13 @@ data/ui/*.glade~
 
 # VSCode workspace configurations
 .vscode
+
+.idea
+CMakeFiles
+cmake-build-debug
+cmake-build-release
+cmake_install.cmake
+compile
+config.h.meson
+meson-cmake-wrapper.log
+meson.build

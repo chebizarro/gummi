@@ -39,4 +39,5 @@ gummi_SOURCES = biblio.c  biblio.h \
 		utils.c utils.h \
 		tabmanager.c tabmanager.h \
 		constants.h \
-		main.c
+		main.c \
+		plugin-manager.c plugin-manager.h

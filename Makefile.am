@@ -1,1 +1,1 @@
-SUBDIRS = po src data lib
+SUBDIRS = docs po src data lib

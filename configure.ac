@@ -22,6 +22,8 @@ AC_PROG_CC_C_O
 IT_PROG_INTLTOOL
 AM_PROG_CC_C_O
 
+GTK_DOC_CHECK([1.0],[--flavour=no-tmpl])
+
 # Checks for libraries.
 AM_PATH_GLIB_2_0([2.20.0], [
 	 GUI_CFLAGS="$GUI_CFLAGS $GLIB_CFLAGS"
@@ -48,6 +50,10 @@ PKG_CHECK_MODULES(poppler, [poppler-glib],,
 GUI_CFLAGS="$GUI_CFLAGS $poppler_CFLAGS"
 GUI_LIBS="$GUI_LIBS $poppler_LIBS"
 
+PKG_CHECK_MODULES(libpeas, [libpeas-1.0],,
+    [AC_MSG_ERROR([You need libpeas to build $PACKAGE])])
+GUI_CFLAGS="$GUI_CFLAGS $libpeas_CFLAGS"
+GUI_LIBS="$GUI_LIBS libpeas_LIBS"
 
 PKG_CHECK_MODULES(gtkspell3, [gtkspell3-3.0],,
     [AC_MSG_ERROR([You need GtkSpell3 to build $PACKAGE])])
@@ -92,6 +98,8 @@ AC_CONFIG_FILES([Makefile
 		 data/icons/Makefile
 		 data/snippets/Makefile
 		 data/misc/Makefile
+		 docs/Makefile
+		 docs/reference/Makefile
 		 lib/Makefile
 		 po/Makefile.in
 		 data/misc/$PACKAGE.desktop

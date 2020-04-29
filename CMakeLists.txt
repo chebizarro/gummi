@@ -5,6 +5,26 @@ set(CMAKE_C_STANDARD 11)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
+
+
+if (CMAKE_BUILD_TYPE MATCHES Release)
+        add_definitions(
+                -DGUMMI_LIBS="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
+                -DGUMMI_DATA="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
+                -DGUMMI_LOCALES="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
+                -DUSE_SYNCTEX1
+        )
+elseif (CMAKE_BUILD_TYPE MATCHES Debug)
+        add_definitions(
+                -DGUMMI_LIBS="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
+                -DGUMMI_DATA="./data/"
+                -DGUMMI_LOCALES="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
+                -DUSE_SYNCTEX1
+        )
+endif (CMAKE_BUILD_TYPE MATCHES Release)
+
+
 find_package (PkgConfig REQUIRED)
 pkg_check_modules (GTK REQUIRED gtk+-3.0)
 pkg_check_modules (GTK_SOURCEVIEW REQUIRED gtksourceview-3.0)
@@ -26,7 +46,6 @@ set (GUMMI_LIBRARIES
         ${GTK_SPELL_LIBRARIES}
         ${SYNCTEX_LIBRARIES})
 
-
 link_directories (${GTK_LIBRARY_DIRS})
 link_directories (${GTK_SOURCEVIEW_LIBRARY_DIRS})
 
@@ -35,12 +54,26 @@ include_directories(src)
 include_directories(src/compile)
 include_directories(src/gui)
 
-add_definitions(
-        -DGUMMI_LIBS="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
-        -DGUMMI_DATA="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
-        -DGUMMI_LOCALES="/${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}"
-        -DUSE_SYNCTEX1
-)
+
+# GResource
+include(GlibCompileResourcesSupport)
+
+set(RESOURCE_LIST
+        data/ui/gummi.glade
+        data/ui/app-menu.ui
+        data/ui/gears-menu.ui
+        data/ui/prefs.glade
+        data/ui/snippets.glade
+        data/ui/window.ui
+        data/ui/prefs.ui)
+
+compile_gresources(RESOURCE_FILE
+        XML_OUT
+        TYPE EMBED_C
+        RESOURCES ${RESOURCE_LIST}
+        SOURCE_DIR ${CMAKE_SOURCE_DIR}
+        PREFIX /org/gtk/gummi
+        )
 
 add_executable(gummi
         src/compile/latexmk.c
@@ -103,6 +136,18 @@ add_executable(gummi
         src/template.h
         src/utils.c
         src/utils.h
-        config.h)
+        config.h
+        src/app.c
+        src/app.h
+        src/app-win.c
+        src/app-win.h
+        src/prefs.c
+        src/prefs.h
+        ${RESOURCE_FILE}
+        )
 
 target_link_libraries (gummi ${GUMMI_LIBRARIES})
+
+#GSettings
+include(GSettings)
+add_schemas(gummi data ${CMAKE_INSTALL_PREFIX})

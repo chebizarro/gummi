@@ -27,9 +27,12 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <glib.h>
-#include <glib/gstdio.h>
+
 #include <gtk/gtk.h>
+
+#include "app.h"
+
+
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,7 +66,7 @@ static GOptionEntry entries[] = {
     { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
-int main (int argc, char *argv[]) {
+int _main (int argc, char *argv[]) {
     /* set up i18n */
     bindtextdomain (C_PACKAGE, GUMMI_LOCALES);
     setlocale (LC_ALL, "");
@@ -167,4 +170,11 @@ int main (int argc, char *argv[]) {
     gui_main (builder);
     config_save ();
     return 0;
+}
+
+
+int
+main (int argc, char *argv[])
+{
+    return g_application_run (G_APPLICATION (gummi_app_new ()), argc, argv);
 }

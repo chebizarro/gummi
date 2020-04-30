@@ -49,7 +49,7 @@ gummi_app_window_init(GummiAppWindow *win)
 
     builder = gtk_builder_new_from_resource ("/org/gtk/gummi/data/ui/gears-menu.ui");
     menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
-    gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->gears), menu);
+    //gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->gears), menu);
     g_object_unref (builder);
 
 }

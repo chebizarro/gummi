@@ -31,12 +31,14 @@ pkg_check_modules (GTK_SOURCEVIEW REQUIRED gtksourceview-3.0)
 pkg_check_modules (POPPLER REQUIRED poppler-glib)
 pkg_check_modules (SYNCTEX REQUIRED synctex<2.00)
 pkg_check_modules (GTK_SPELL REQUIRED gtkspell3-3.0)
+pkg_check_modules (LIB_PEAS REQUIRED libpeas-1.0)
 
 include_directories (
         ${GTK_INCLUDE_DIRS}
         ${GTK_SOURCEVIEW_INCLUDE_DIRS}
         ${POPPLER_INCLUDE_DIRS}
         ${GTK_SPELL_INCLUDE_DIRS}
+        ${LIB_PEAS_INCLUDE_DIRS}
         ${SYNCTEX_INCLUDE_DIRS})
 
 set (GUMMI_LIBRARIES
@@ -44,15 +46,18 @@ set (GUMMI_LIBRARIES
         ${GTK_SOURCEVIEW_LIBRARIES}
         ${POPPLER_LIBRARIES}
         ${GTK_SPELL_LIBRARIES}
+        ${LIB_PEAS_LIBRARIES}
         ${SYNCTEX_LIBRARIES})
 
 link_directories (${GTK_LIBRARY_DIRS})
 link_directories (${GTK_SOURCEVIEW_LIBRARY_DIRS})
+link_directories (libgummi)
 
 include_directories(.)
 include_directories(src)
-include_directories(src/compile)
+include_directories(libgummi/compile)
 include_directories(src/gui)
+include_directories(libgummi)
 
 
 # GResource
@@ -75,13 +80,18 @@ compile_gresources(RESOURCE_FILE
         PREFIX /org/gtk/gummi
         )
 
-add_executable(gummi
-        src/compile/latexmk.c
-        src/compile/latexmk.h
-        src/compile/rubber.c
-        src/compile/rubber.h
-        src/compile/texlive.c
-        src/compile/texlive.h
+add_library(gummi
+        libgummi/compile/latexmk.c
+        libgummi/compile/latexmk.h
+        libgummi/compile/rubber.c
+        libgummi/compile/rubber.h
+        libgummi/compile/texlive.c
+        libgummi/compile/texlive.h
+        )
+
+#target_link_libraries(libgummi)
+
+add_executable(gummi-bin
         src/gui/gui-import.c
         src/gui/gui-import.h
         src/gui/gui-infoscreen.c
@@ -122,8 +132,8 @@ add_executable(gummi
         src/main.c
         src/motion.c
         src/motion.h
-        # src/plugin-manager.c
-        # src/plugin-manager.h
+        src/plugin-manager.c
+        src/plugin-manager.h
         src/project.c
         src/project.h
         src/signals.c
@@ -146,8 +156,11 @@ add_executable(gummi
         ${RESOURCE_FILE}
         src/context.c src/context.h)
 
-target_link_libraries (gummi ${GUMMI_LIBRARIES})
+target_link_libraries (gummi-bin ${GUMMI_LIBRARIES} gummi)
 
 #GSettings
 include(GSettings)
-add_schemas(gummi data ${CMAKE_INSTALL_PREFIX})
+add_schemas(gummi-bin data ${CMAKE_INSTALL_PREFIX})
+
+set_target_properties(gummi-bin
+        PROPERTIES OUTPUT_NAME gummi)

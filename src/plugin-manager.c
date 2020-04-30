@@ -28,9 +28,10 @@ gummi_plugins_engine_init (GummiPluginsEngine *engine)
     engine->plugin_settings = g_settings_new ("org.gnome.gummi.plugins");
 
     /* Require gummi's typelib. */
+    /*
     typelib_dir = g_build_filename (gummi_dirs_get_gummi_lib_dir (),
                                     "girepository-1.0",
-                                    NULL);
+                                    NULL);*/
 
     if (!g_irepository_require_private (g_irepository_get_default (),
                                         typelib_dir, "Gummi", "3.0", 0, &error))
@@ -59,6 +60,7 @@ gummi_plugins_engine_init (GummiPluginsEngine *engine)
         error = NULL;
     }
 
+    /*
     peas_engine_add_search_path (PEAS_ENGINE (engine),
                                  gummi_dirs_get_user_plugins_dir (),
                                  gummi_dirs_get_user_plugins_dir ());
@@ -72,6 +74,7 @@ gummi_plugins_engine_init (GummiPluginsEngine *engine)
                      engine,
                      "loaded-plugins",
                      G_SETTINGS_BIND_DEFAULT);
+                     */
 }
 
 static void

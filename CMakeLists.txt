@@ -144,7 +144,7 @@ add_executable(gummi
         src/prefs.c
         src/prefs.h
         ${RESOURCE_FILE}
-        )
+        src/context.c src/context.h)
 
 target_link_libraries (gummi ${GUMMI_LIBRARIES})
 

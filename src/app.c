@@ -9,10 +9,13 @@
 #include "app-win.h"
 #include "prefs.h"
 #include "constants.h"
+#include "signals.h"
+#include "context.h"
 
 struct _GummiApp
 {
     GtkApplication parent;
+    GummiContext *context;
 };
 
 G_DEFINE_TYPE(GummiApp, gummi_app, GTK_TYPE_APPLICATION);
@@ -50,7 +53,7 @@ static GActionEntry app_entries[] =
         };
 
 static void
-gummi_app_startup(GApplication *app)
+gummi_app_startup (GApplication *app)
 {
     GtkBuilder *builder;
     GMenuModel *app_menu;
@@ -69,7 +72,11 @@ gummi_app_startup(GApplication *app)
     app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
     gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
 
+    /* Initialize signals */
+    gummi_signals_register();
 
+    GummiContext *ctx = gummi_context_new();
+    GUMMI_APP(app)->context = ctx;
 
     /* Initialize logging */
     slog_init (0);
@@ -77,21 +84,24 @@ gummi_app_startup(GApplication *app)
 
 
 
-
+    /* Clean up references */
     g_object_unref (builder);
 }
 
 static void
-gummi_app_activate(GApplication *app)
+gummi_app_activate (GApplication *app)
 {
     GummiAppWindow *win;
 
     win = gummi_app_window_new(GUMMI_APP(app));
     gtk_window_present (GTK_WINDOW (win));
+    slog_set_gui_parent (GTK_WINDOW(win));
+    slog (L_DEBUG, "GummiGui created!\n");
+
 }
 
 static void
-gummi_app_open(GApplication *app,
+gummi_app_open (GApplication *app,
                GFile **files,
                gint n_files,
                const gchar *hint)
@@ -113,11 +123,20 @@ gummi_app_open(GApplication *app,
 }
 
 static void
+gummi_app_shutdown (GApplication *app) {
+
+    g_object_unref (GUMMI_APP(app)->context);
+
+    G_APPLICATION_CLASS(gummi_app_parent_class)->shutdown(app);
+}
+
+static void
 gummi_app_class_init (GummiAppClass *class)
 {
     G_APPLICATION_CLASS (class)->startup = gummi_app_startup;
     G_APPLICATION_CLASS (class)->activate = gummi_app_activate;
     G_APPLICATION_CLASS (class)->open = gummi_app_open;
+    G_APPLICATION_CLASS (class)->shutdown = gummi_app_shutdown;
 }
 
 GummiApp *

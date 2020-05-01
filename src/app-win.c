@@ -41,13 +41,13 @@ gummi_app_window_init(GummiAppWindow *win)
     GAction *action;
 
     gtk_widget_init_template (GTK_WIDGET (win));
-    win->settings = g_settings_new ("org.gtk.gummi");
+    win->settings = g_settings_new ("org.gummi.app");
 
     g_settings_bind (win->settings, "transition",
                      win->stack, "transition-type",
                      G_SETTINGS_BIND_DEFAULT);
 
-    builder = gtk_builder_new_from_resource ("/org/gtk/gummi/data/ui/gears-menu.ui");
+    builder = gtk_builder_new_from_resource ("/org/gummi/app/data/ui/gears-menu.ui");
     menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
     //gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->gears), menu);
     g_object_unref (builder);
@@ -72,7 +72,7 @@ gummi_app_window_class_init (GummiAppWindowClass *class)
     G_OBJECT_CLASS (class)->dispose = gummi_app_window_dispose;
 
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class),
-                                                 "/org/gtk/gummi/data/ui/window.ui");
+                                                 "/org/gummi/app/data/ui/window.ui");
 
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), GummiAppWindow, stack);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), GummiAppWindow, gears);

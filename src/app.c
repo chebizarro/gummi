@@ -68,7 +68,7 @@ gummi_app_startup (GApplication *app)
                                            "app.quit",
                                            quit_accels);
 
-    builder = gtk_builder_new_from_resource ("/org/gtk/gummi/data/ui/app-menu.ui");
+    builder = gtk_builder_new_from_resource ("/org/gummi/app/data/ui/app-menu.ui");
     app_menu = G_MENU_MODEL (gtk_builder_get_object (builder, "appmenu"));
     gtk_application_set_app_menu (GTK_APPLICATION (app), app_menu);
 
@@ -143,7 +143,7 @@ GummiApp *
 gummi_app_new(void)
 {
     return g_object_new (GUMMI_APP_TYPE,
-                         "application-id", "org.gtk.gummi",
+                         "application-id", "org.gummi.app",
                          "flags", G_APPLICATION_HANDLES_OPEN,
                          NULL);
 }

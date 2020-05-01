@@ -77,7 +77,7 @@ compile_gresources(RESOURCE_FILE
         TYPE EMBED_C
         RESOURCES ${RESOURCE_LIST}
         SOURCE_DIR ${CMAKE_SOURCE_DIR}
-        PREFIX /org/gtk/gummi
+        PREFIX /org/gummi/app
         )
 
 add_library(gummi

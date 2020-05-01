@@ -23,7 +23,7 @@ static void
 gummi_prefs_init (GummiPrefs *prefs)
 {
     gtk_widget_init_template (GTK_WIDGET (prefs));
-    prefs->settings = g_settings_new ("org.gtk.gummi");
+    prefs->settings = g_settings_new ("org.gummi.app");
 
     g_settings_bind (prefs->settings, "font",
                      prefs->font, "font",
@@ -51,7 +51,7 @@ gummi_prefs_class_init(GummiPrefsClass *class)
     G_OBJECT_CLASS (class)->dispose = gummi_prefs_dispose;
 
     gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class),
-                                                 "/org/gtk/gummi/data/ui/prefs.ui");
+                                                 "/org/gummi/app/data/ui/prefs.ui");
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), GummiPrefs, font);
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), GummiPrefs, transition);
 }

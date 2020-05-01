@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema path="/org/gtk/gummi/" id="org.gtk.gummi">
+  <schema path="/org/gummi/app/" id="org.gummi.app">
     <key name="font" type="s">
       <default>'Monospace 12'</default>
       <summary>Font</summary>

@@ -4,8 +4,8 @@
 
 #include <gtk/gtk.h>
 
-#include "app.h"
-#include "app-win.h"
+#include "gummi-app.h"
+#include "gummi-window.h"
 #include "prefs.h"
 
 struct _GummiPrefs

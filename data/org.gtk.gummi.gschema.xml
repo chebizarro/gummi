@@ -1,25 +1,209 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist>
+<schemalist gettext-domain="gummi">
+
+  <enum id="org.gummi.app.ZoomMode">
+    <value nick="fit-page-width" value="0"/>
+  </enum>
+
   <schema path="/org/gummi/app/" id="org.gummi.app">
-    <key name="font" type="s">
-      <default>'Monospace 12'</default>
-      <summary>Font</summary>
-      <description>The font to be used for content.</description>
-    </key>
-    <key name="transition" type="s">
-      <choices>
-        <choice value='none'/>
-        <choice value='crossfade'/>
-        <choice value='slide-left-right'/>
-      </choices>
-      <default>'none'</default>
-      <summary>Transition</summary>
-      <description>The transition to use when switching tabs.</description>
-    </key>
-    <key name="show-words" type="b">
-      <default>false</default>
-      <summary>Show words</summary>
-      <description>Whether to show a word list in the sidebar</description>
+    <child name="preferences" schema="org.gummi.app.preferences"/>
+    <child name="plugins" schema="org.gummi.app.plugins"/>
+  </schema>
+
+  <schema path="/org/gummi/app/preferences/" id="org.gummi.app.preferences">
+    <child name="general" schema="org.gummi.app.preferences.general"/>
+    <child name="interface" schema="org.gummi.app.preferences.interface"/>
+    <child name="editor" schema="org.gummi.app.preferences.editor"/>
+    <child name="preview" schema="org.gummi.app.preferences.preview"/>
+    <child name="file" schema="org.gummi.app.preferences.file"/>
+    <child name="compile" schema="org.gummi.app.preferences.compile"/>
+  </schema>
+
+  <schema path="/org/gummi/app/preferences/general/" id="org.gummi.app.preferences.general">
+    <key name="config-version" type="s">
+      <default l10n="messages">'0.81.1'</default>
+      <summary>Configuration Version</summary>
+      <description>The version of the app used to generate these preferences</description>
     </key>
   </schema>
+
+  <schema path="/org/gummi/app/preferences/interface/" id="org.gummi.app.preferences.interface">
+    <key name="mainwindow-x" type="i">
+      <default>0</default>
+      <summary>Main Window Placement</summary>
+      <description>Where the main window will be drawn</description>
+    </key>
+    <key name="mainwindow-y" type="i">
+      <default>0</default>
+      <summary>Main Window Placement</summary>
+      <description>Where the main window will be drawn</description>
+    </key>
+    <key name="mainwindow-w" type="i">
+      <default>792</default>
+      <summary>Main Window Width</summary>
+      <description>The width of the main window</description>
+    </key>
+    <key name="mainwindow-h" type="i">
+      <default>558</default>
+      <summary>Main Window Height</summary>
+      <description>The height of the main window</description>
+    </key>
+    <key name="mainwindow-max" type="b">
+      <default>false</default>
+      <summary>Whether the main window is maximized or not</summary>
+      <description>Whether the main window is maximized or not</description>
+    </key>
+    <key name="toolbar" type="b">
+      <default>true</default>
+      <summary>Whether to show the toolbar or not</summary>
+      <description>Whether to show the toolbar or not</description>
+    </key>
+    <key name="statusbar" type="b">
+      <default>true</default>
+      <summary>Whether to show the status bar or not</summary>
+      <description>Whether to show the status bar or not</description>
+    </key>
+    <key name="snippets" type="b">
+      <default>true</default>
+      <summary>Whether to show the snippets panel or not</summary>
+      <description>Whether to show the snippets panel or not</description>
+    </key>
+  </schema>
+
+  <schema path="/org/gummi/app/preferences/editor/" id="org.gummi.app.preferences.editor">
+    <key name="font" type="s">
+      <default l10n="messages">'Monospace 14'</default>
+      <summary>Editor Font</summary>
+      <description>The font that will be used for the editing area.</description>
+    </key>
+    <key name="line-numbers" type="b">
+      <default>true</default>
+      <summary>Show Line Numbers</summary>
+      <description>Whether to show line numbers or not</description>
+    </key>
+    <key name="highlighting" type="b">
+      <default>true</default>
+      <summary>Highlighting</summary>
+      <description>Whether to show highlighting or not</description>
+    </key>
+    <key name="textwrapping" type="b">
+      <default>true</default>
+      <summary>Text Wrapping</summary>
+      <description>Whether to wrap text in the editor or not</description>
+    </key>
+    <key name="wordwrapping" type="b">
+      <default>true</default>
+      <summary>Word Wrapping</summary>
+      <description>Whether to wrap words in the editor or not</description>
+    </key>
+    <key name="tabwidth" type="i">
+      <default>4</default>
+      <summary>Tab Width</summary>
+      <description>Number of spaces to insert for Tab</description>
+    </key>
+    <key name="spaces-instof-tabs" type="b">
+      <default>false</default>
+      <summary>Spaces instead of tabs</summary>
+      <description>Use spaces instead of tabs</description>
+    </key>
+    <key name="autoindentation" type="b">
+      <default>true</default>
+      <summary>Auto Indentation</summary>
+      <description>Auto indent text</description>
+    </key>
+    <key name="style-scheme" type="s">
+      <default l10n="messages">'classic'</default>
+      <summary>Style Scheme</summary>
+      <description>The style scheme to use in the editor</description>
+    </key>
+    <key name="spelling" type="b">
+      <default>false</default>
+      <summary>Spelling</summary>
+      <description>Enable auto spell checking</description>
+    </key>
+    <key name="spelling-lang" type="s">
+      <default l10n="messages">'None'</default>
+      <summary>Spelling Language</summary>
+      <description>Language to use for spell check</description>
+    </key>
+  </schema>
+
+  <schema path="/org/gummi/app/preferences/preview/" id="org.gummi.app.preferences.preview">
+    <key name="wrap-last-split-mode" enum="org.gummi.app.ZoomMode">
+      <aliases>
+        <alias value='0' target='fit-page-width'/>
+      </aliases>
+      <default>'fit-page-width'</default>
+      <summary>Fit To Page Width</summary>
+      <description>Fit the document to the preview window</description>
+    </key>
+
+    <key name="autosync" type="b">
+      <default>false</default>
+      <summary>Auto Sync</summary>
+      <description>Automaticatlly synchronize the document and preview</description>
+    </key>
+
+    <key name="cache-size" type="i">
+      <default>150</default>
+      <summary>Cache Size</summary>
+      <description>Size of the preview cache</description>
+    </key>
+
+  </schema>
+
+  <schema path="/org/gummi/app/preferences/file/" id="org.gummi.app.preferences.file">
+    <key name="autosaving" type="b">
+      <default>false</default>
+      <summary>Auto Save</summary>
+      <description>Automatically save the document when idle</description>
+    </key>
+    <key name="autosave-timer" type="i">
+      <default>10</default>
+      <summary>Auto Save Timer</summary>
+      <description>How many microseconds to wait before auto saving on idle</description>
+    </key>
+    <key name="autoexport" type="b">
+      <default>false</default>
+      <summary>Auto Export</summary>
+      <description>Automatically export the document to pdf when idle</description>
+    </key>
+  </schema>
+
+  <schema path="/org/gummi/app/preferences/compile/" id="org.gummi.app.preferences.compile">
+
+    <key name="pause" type="b">
+      <default>false</default>
+      <summary>Pause</summary>
+      <description>Pause the compiler</description>
+    </key>
+
+    <key name="timer" type="i">
+      <default>10</default>
+      <summary>Timer</summary>
+      <description>How many microseconds to wait before compiling on idle</description>
+    </key>
+
+    <key name="shellescape" type="b">
+      <default>false</default>
+      <summary>Shell Escape</summary>
+      <description>Use shell escape</description>
+    </key>
+    <key name="synctex" type="b">
+      <default>false</default>
+      <summary>Synctex</summary>
+      <description>Use synctex</description>
+    </key>
+  </schema>
+
+
+  <schema path="/org/gummi/app/plugins/" id="org.gummi.app.plugins">
+    <key name="active-plugins" type="as">
+      <default>['']</default>
+      <summary>Active plugins</summary>
+      <description>List of active plugins.</description>
+    </key>
+  </schema>
+
+
 </schemalist>

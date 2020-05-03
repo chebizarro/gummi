@@ -5,12 +5,14 @@
 
 #include <gtk/gtk.h>
 
-#include "app.h"
-#include "app-win.h"
+#include <glib/gi18n.h>
+
+#include "gummi-app.h"
+#include "gummi-window.h"
 #include "prefs.h"
 #include "constants.h"
 #include "signals.h"
-#include "context.h"
+#include "gummi-context.h"
 
 struct _GummiApp
 {
@@ -19,6 +21,15 @@ struct _GummiApp
 };
 
 G_DEFINE_TYPE(GummiApp, gummi_app, GTK_TYPE_APPLICATION);
+
+static const GOptionEntry options[] = {
+        { (const gchar*)"debug", 'd', 0, G_OPTION_ARG_NONE,
+                NULL, N_("show debug info"), NULL},
+        { (const gchar*)"version", 'v', 0, G_OPTION_ARG_NONE,
+                NULL, N_("show version and exit"), NULL},
+        { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
+};
+
 
 static void
 gummi_app_init (GummiApp *app)

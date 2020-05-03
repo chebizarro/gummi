@@ -30,18 +30,19 @@
 #ifndef __GUMMI_PROJECT_H__
 #define __GUMMI_PROJECT_H__
 
-#include <glib.h>
+#include <glib-object.h>
 
-typedef struct _Project {
-    gchar* projfile;
-    gchar* rootfile;
+G_BEGIN_DECLS
 
-    int nroffiles;
+#define GUMMI_TYPE_PROJECT gummi_project_get_type ()
+G_DECLARE_FINAL_TYPE (GummiProject, gummi_project, GUMMI, PROJECT, GObject)
 
-} GuProject;
+GummiProject *gummi_project_new(void);
+gchar *gummi_project_get_file(GummiProject* project);
+gint gummi_project_get_no_files(GummiProject *project);
 
 
-GuProject* project_init (void);
+GummiProject* project_init (void);
 gboolean project_close (void);
 
 gboolean project_create_new (const gchar* filename);
@@ -54,5 +55,7 @@ gchar* project_get_value (const gchar* content, const gchar* item);
 
 gboolean project_add_document (const gchar* project, const gchar* fname);
 gboolean project_remove_document (const gchar* project, const gchar* fname);
+
+G_END_DECLS
 
 #endif /* __GUMMI_PROJECT_H__ */

@@ -1,8 +1,8 @@
 /**
- * @file   gui-project.h
- * @brief
+ * @file   app-win.h
+ * @brief  Main window implementation
  *
- * Copyright (C) 2009 Gummi Developers
+ * Copyright (C) 2009-2020 Gummi Developers
  * All Rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person
@@ -27,41 +27,20 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef __GUMMI_GUI_PROJECT_H__
-#define __GUMMI_GUI_PROJECT_H__
+#ifndef GUMMI_GUMMI_WINDOW_H
+#define GUMMI_GUMMI_WINDOW_H
 
-#include <glib.h>
 #include <gtk/gtk.h>
+#include "gummi-app.h"
 
-#include "project.h"
 
-#define g_menugui gui->menugui
+#define GUMMI_APP_WINDOW_TYPE (gummi_app_window_get_type ())
+G_DECLARE_FINAL_TYPE (GummiAppWindow, gummi_app_window, GUMMI, APP_WINDOW, GtkApplicationWindow)
 
-#define GU_PROJECT_GUI(x) ((GuProjectGui*)x)
-typedef struct _GuProjectGui GuProjectGui;
 
-struct _GuProjectGui {
-    GtkListStore* list_projfiles;
-    GtkTreeView* proj_treeview;
+GummiAppWindow       *gummi_app_window_new (GummiApp *app);
+void                 gummi_app_window_open (GummiAppWindow *win,
+                                            GFile *file);
 
-    GtkButton* proj_addbutton;
-    GtkButton* proj_rembutton;
 
-    GtkLabel* proj_name;
-    GtkLabel* proj_path;
-    GtkLabel* proj_nroffiles;
-
-};
-
-GuProjectGui* projectgui_init (GtkBuilder* builder);
-
-void projectgui_enable (GummiProject* pr, GuProjectGui* prgui);
-void projectgui_disable (GummiProject* pr, GuProjectGui* prgui);
-
-GdkPixbuf* projectgui_get_status_pixbuf (int status);
-
-void projectgui_set_rootfile (gint position);
-
-int projectgui_list_projfiles (gchar* active_proj);
-
-#endif /* __GUMMI_GUI_PROJECT_H__ */
+#endif //GUMMI_GUMMI_WINDOW_H

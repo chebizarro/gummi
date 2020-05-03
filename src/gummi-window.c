@@ -1,12 +1,36 @@
-// gummi
-// Copyright (c) 2020 Chris Daley <chebizarro@gmail.com>
-// This code is licensed under MIT license (see LICENSE.txt for details)
-
+/**
+ * @file   app-win.c
+ * @brief  Main window implementation
+ *
+ * Copyright (C) 2009-2020 Gummi Developers
+ * All Rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 #include <gtk/gtk.h>
 
-#include "app.h"
-#include "app-win.h"
+#include "gummi-app.h"
+#include "gummi-window.h"
 
 
 struct _GummiAppWindow
@@ -15,8 +39,6 @@ struct _GummiAppWindow
 
     GSettings *settings;
     GtkWidget *stack;
-    GtkWidget *search;
-    GtkWidget *gears;
 };
 
 G_DEFINE_TYPE (GummiAppWindow, gummi_app_window, GTK_TYPE_APPLICATION_WINDOW)
@@ -32,26 +54,68 @@ visible_child_changed (GObject          *stack,
 
 }
 
+static void
+new_project (GSimpleAction *action,
+             GVariant      *parameter,
+             gpointer       app)
+{
+
+}
+
+static void
+open_project (GSimpleAction *action,
+              GVariant      *parameter,
+              gpointer       app)
+{
+
+}
+
+static void
+close_project (GSimpleAction *action,
+               GVariant      *parameter,
+               gpointer       app)
+{
+
+}
+
+static void
+user_guide (GSimpleAction *action,
+            GVariant      *parameter,
+            gpointer       app)
+{
+
+}
+
+static void
+about_gummi (GSimpleAction *action,
+            GVariant      *parameter,
+            gpointer       app)
+{
+
+}
+
+
+static GActionEntry win_entries[] =
+        {
+                { "new-project", new_project, NULL, NULL, NULL },
+                { "open-project", open_project, NULL, NULL, NULL },
+                { "close-project", close_project, NULL, NULL, NULL },
+                { "user-guide", user_guide, NULL, NULL, NULL },
+                { "about", about_gummi, NULL, NULL, NULL }
+        };
+
 
 static void
 gummi_app_window_init(GummiAppWindow *win)
 {
-    GtkBuilder *builder;
-    GMenuModel *menu;
-    GAction *action;
 
     gtk_widget_init_template (GTK_WIDGET (win));
     win->settings = g_settings_new ("org.gummi.app");
 
-    g_settings_bind (win->settings, "transition",
-                     win->stack, "transition-type",
-                     G_SETTINGS_BIND_DEFAULT);
 
-    builder = gtk_builder_new_from_resource ("/org/gummi/app/data/ui/gears-menu.ui");
-    menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
-    //gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->gears), menu);
-    g_object_unref (builder);
-
+    g_action_map_add_action_entries (G_ACTION_MAP (win),
+                                     win_entries, G_N_ELEMENTS (win_entries),
+                                     win);
 }
 
 static void
@@ -75,7 +139,6 @@ gummi_app_window_class_init (GummiAppWindowClass *class)
                                                  "/org/gummi/app/data/ui/window.ui");
 
     gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), GummiAppWindow, stack);
-    gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), GummiAppWindow, gears);
     gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (class), visible_child_changed);
 }
 
@@ -127,6 +190,5 @@ gummi_app_window_open(GummiAppWindow *win,
 
     g_free (basename);
 
-    gtk_widget_set_sensitive (win->search, TRUE);
 
 }

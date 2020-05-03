@@ -42,8 +42,52 @@
 extern GummiGui* gui;
 extern Gummi* gummi;
 
-GuProject* project_init (void) {
-    GuProject* p = g_new0 (GuProject, 1);
+struct _GummiProject {
+    GObject parent_instance;
+
+    gchar* projfile;
+    gchar* rootfile;
+
+    int nroffiles;
+};
+
+G_DEFINE_TYPE (GummiProject, gummi_project, G_TYPE_OBJECT)
+
+static void
+gummi_project_dispose (GObject *gobject)
+{
+    G_OBJECT_CLASS (gummi_project_parent_class)->dispose (gobject);
+}
+
+static void
+gummi_project_finalize (GObject *gobject)
+{
+    G_OBJECT_CLASS (gummi_project_parent_class)->finalize (gobject);
+}
+
+static void
+gummi_project_class_init (GummiProjectClass *klass)
+{
+
+}
+
+static void
+gummi_project_init (GummiProject *self)
+{
+    self->projfile = NULL;
+    self->rootfile = NULL;
+    self->nroffiles = 1;
+}
+
+GummiProject *
+gummi_project_new(void) {
+    return g_object_new (GUMMI_TYPE_PROJECT,
+                         NULL);
+
+}
+
+GummiProject* project_init (void) {
+    GummiProject* p = g_new0 (GummiProject, 1);
 
     p->projfile = NULL;
     p->rootfile = NULL;
@@ -52,6 +96,13 @@ GuProject* project_init (void) {
     return p;
 }
 
+gchar *gummi_project_get_file (GummiProject* project) {
+    return project->projfile;
+}
+
+gint gummi_project_get_no_files(GummiProject *project) {
+    return project->nroffiles;
+}
 
 gboolean project_create_new (const gchar* filename) {
     const gchar* version = g_strdup ("0.6.0");

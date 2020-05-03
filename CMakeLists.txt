@@ -147,14 +147,17 @@ add_executable(gummi-bin
         src/utils.c
         src/utils.h
         config.h
-        src/app.c
-        src/app.h
-        src/app-win.c
-        src/app-win.h
+        src/gummi-app.c
+        src/gummi-app.h
+        src/gummi-window.c
+        src/gummi-window.h
         src/prefs.c
         src/prefs.h
         ${RESOURCE_FILE}
-        src/context.c src/context.h)
+        src/gummi-context.c
+        src/gummi-context.h
+        #src/gummi-commands-file.c
+        )
 
 target_link_libraries (gummi-bin ${GUMMI_LIBRARIES} gummi)
 

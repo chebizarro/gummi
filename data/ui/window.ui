@@ -118,8 +118,8 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="action_name">app.close</property>
-            <property name="text" translatable="yes">Close Project</property>
+            <property name="action_name">win.new-project</property>
+            <property name="text" translatable="yes">New Project</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -128,9 +128,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkSeparator">
+          <object class="GtkModelButton">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="action_name">win.open-project</property>
+            <property name="text" translatable="yes">Open Project</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -143,8 +146,8 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="action_name">app.registration</property>
-            <property name="text" translatable="yes">Registration &amp; User Survey</property>
+            <property name="action_name">win.close-project</property>
+            <property name="text" translatable="yes">Close Project</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -153,12 +156,9 @@
           </packing>
         </child>
         <child>
-          <object class="GtkModelButton">
+          <object class="GtkSeparator">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="action_name">app.reference</property>
-            <property name="text" translatable="yes">_Developer Reference</property>
+            <property name="can_focus">False</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -171,8 +171,8 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="action_name">app.intro</property>
-            <property name="text" translatable="yes">Interactive Intro</property>
+            <property name="action_name">win.user-guide</property>
+            <property name="text" translatable="yes">User Guide</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -191,7 +191,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">5</property>
+            <property name="position">7</property>
           </packing>
         </child>
         <child>
@@ -202,7 +202,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">6</property>
+            <property name="position">8</property>
           </packing>
         </child>
         <child>
@@ -210,13 +210,13 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="action_name">app.about</property>
-            <property name="text" translatable="yes">About Glade</property>
+            <property name="action_name">win.about</property>
+            <property name="text" translatable="yes">About Gummi</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">7</property>
+            <property name="position">9</property>
           </packing>
         </child>
       </object>
@@ -253,7 +253,6 @@
           <object class="GtkButtonBox" id="open_button_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
             <property name="layout_style">expand</property>
             <child>
               <object class="GtkButton">
@@ -403,6 +402,28 @@
           </packing>
         </child>
         <child>
+          <object class="GtkButton">
+            <property name="name">properties-button</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip_text" translatable="yes">Edit project properties</property>
+            <property name="action_name">app.properties</property>
+            <property name="use_underline">True</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">document-properties-symbolic</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkButtonBox" id="save_button_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -447,28 +468,6 @@
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="pack_type">end</property>
-            <property name="position">4</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton">
-            <property name="name">properties-button</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="tooltip_text" translatable="yes">Edit project properties</property>
-            <property name="action_name">app.properties</property>
-            <property name="use_underline">True</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="icon_name">document-properties-symbolic</property>
-              </object>
             </child>
           </object>
           <packing>

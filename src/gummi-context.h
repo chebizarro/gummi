@@ -1,8 +1,8 @@
 /**
- * @file   gui-project.h
- * @brief
+ * @file   context.h
+ * @brief  Application Context
  *
- * Copyright (C) 2009 Gummi Developers
+ * Copyright (C) 2009-2020 Gummi Developers
  * All Rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person
@@ -27,41 +27,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef __GUMMI_GUI_PROJECT_H__
-#define __GUMMI_GUI_PROJECT_H__
+#ifndef GUMMI_GUMMI_CONTEXT_H
+#define GUMMI_GUMMI_CONTEXT_H
 
-#include <glib.h>
-#include <gtk/gtk.h>
+#include <glib-object.h>
 
-#include "project.h"
+G_BEGIN_DECLS
 
-#define g_menugui gui->menugui
+#define GUMMI_TYPE_CONTEXT gummi_context_get_type ()
+G_DECLARE_FINAL_TYPE (GummiContext, gummi_context, GUMMI, CONTEXT, GObject)
 
-#define GU_PROJECT_GUI(x) ((GuProjectGui*)x)
-typedef struct _GuProjectGui GuProjectGui;
+GummiContext *gummi_context_new (void);
 
-struct _GuProjectGui {
-    GtkListStore* list_projfiles;
-    GtkTreeView* proj_treeview;
+G_END_DECLS
 
-    GtkButton* proj_addbutton;
-    GtkButton* proj_rembutton;
-
-    GtkLabel* proj_name;
-    GtkLabel* proj_path;
-    GtkLabel* proj_nroffiles;
-
-};
-
-GuProjectGui* projectgui_init (GtkBuilder* builder);
-
-void projectgui_enable (GummiProject* pr, GuProjectGui* prgui);
-void projectgui_disable (GummiProject* pr, GuProjectGui* prgui);
-
-GdkPixbuf* projectgui_get_status_pixbuf (int status);
-
-void projectgui_set_rootfile (gint position);
-
-int projectgui_list_projfiles (gchar* active_proj);
-
-#endif /* __GUMMI_GUI_PROJECT_H__ */
+#endif //GUMMI_GUMMI_CONTEXT_H

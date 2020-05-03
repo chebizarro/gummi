@@ -6,7 +6,7 @@
 #define GUMMI_PREFS_H
 
 #include <gtk/gtk.h>
-#include "app-win.h"
+#include "gummi-window.h"
 
 
 #define GUMMI_PREFS_TYPE (gummi_prefs_get_type ())

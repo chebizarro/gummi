@@ -2,8 +2,8 @@
 // Copyright (c) 2020 Chris Daley <chebizarro@gmail.com>
 // This code is licensed under MIT license (see LICENSE.txt for details)
 
-#ifndef GUMMI_APP_H
-#define GUMMI_APP_H
+#ifndef GUMMI_GUMMI_APP_H
+#define GUMMI_GUMMI_APP_H
 
 #include <gtk/gtk.h>
 
@@ -15,4 +15,4 @@ G_DECLARE_FINAL_TYPE (GummiApp, gummi_app, GUMMI, APP, GtkApplication)
 GummiApp     *gummi_app_new(void);
 
 
-#endif //GUMMI_APP_H
+#endif //GUMMI_GUMMI_APP_H

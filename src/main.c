@@ -30,7 +30,7 @@
 
 #include <gtk/gtk.h>
 
-#include "app.h"
+#include "gummi-app.h"
 
 
 #include <locale.h>
@@ -122,7 +122,7 @@ int _main (int argc, char *argv[]) {
     GuBiblio* biblio = biblio_init (builder);
     GuTemplate* templ = template_init (builder);
     GuTabmanager* tabm = tabmanager_init ();
-    GuProject* proj = project_init ();
+    GummiProject* proj = project_init ();
     GuSnippets* snippets = snippets_init ();
 
     gummi = gummi_init (motion, io, latex, biblio, templ, snippets, tabm, proj);

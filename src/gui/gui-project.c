@@ -126,14 +126,14 @@ GdkPixbuf* projectgui_get_status_pixbuf (int status) {
     }
 }
 
-void projectgui_enable (GuProject* pr, GuProjectGui* prgui) {
-    const gchar* projbasename = g_path_get_basename (pr->projfile);
-    const gchar* projrootpath = g_path_get_dirname (pr->rootfile);
+void projectgui_enable (GummiProject* pr, GuProjectGui* prgui) {
+    const gchar* projbasename = g_path_get_basename (gummi_project_get_file(pr));
+    const gchar* projrootpath = g_path_get_basename (gummi_project_get_file(pr)); //g_path_get_dirname (pr->rootfile);
 
     gtk_label_set_text (prgui->proj_name, projbasename);
     gtk_label_set_text (prgui->proj_path, projrootpath);
     gtk_label_set_text (prgui->proj_nroffiles,
-                        g_strdup_printf("%d", pr->nroffiles));
+                        g_strdup_printf("%d", gummi_project_get_no_files(pr)));
 
     // for visible information when window is shrunk, see #439 -A
     gtk_widget_set_tooltip_text
@@ -146,7 +146,7 @@ void projectgui_enable (GuProject* pr, GuProjectGui* prgui) {
     tablabel_set_bold_text (g_active_tab->page);
 }
 
-void projectgui_disable (GuProject* pr, GuProjectGui* prgui) {
+void projectgui_disable (GummiProject* pr, GuProjectGui* prgui) {
 
     gtk_list_store_clear (gui->projectgui->list_projfiles);
 
@@ -170,8 +170,8 @@ void on_projfile_add_clicked (GtkWidget* widget, void* user) {
     selected = get_open_filename (TYPE_LATEX);
 
     if (selected) {
-        if (project_add_document (gummi->project->projfile, selected)) {
-            int amount = projectgui_list_projfiles (gummi->project->projfile);
+        if (project_add_document (gummi_project_get_file(gummi->project), selected)) {
+            int amount = projectgui_list_projfiles (gummi_project_get_file(gummi->project));
             gtk_label_set_text (gui->projectgui->proj_nroffiles,
                                 g_strdup_printf("%d", amount));
             gui_open_file (selected);
@@ -195,8 +195,8 @@ void on_projfile_rem_clicked (GtkWidget* widget, void* user) {
     if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
         gtk_tree_model_get (model, &iter, 3, &value, -1);
 
-        if (project_remove_document (gummi->project->projfile, value)) {
-            int amount = projectgui_list_projfiles (gummi->project->projfile);
+        if (project_remove_document (gummi_project_get_file(gummi->project), value)) {
+            int amount = projectgui_list_projfiles (gummi_project_get_file(gummi->project));
             gtk_label_set_text (gui->projectgui->proj_nroffiles,
                                 g_strdup_printf("%d", amount));
         }

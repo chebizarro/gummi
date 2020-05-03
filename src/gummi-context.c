@@ -1,8 +1,8 @@
 /**
- * @file    environment.h
- * @brief
+ * @file   gummi-context.h
+ * @brief  The Gummi Application Context
  *
- * Copyright (C) 2009 Gummi Developers
+ * Copyright (C) 2009-2020 Gummi Developers
  * All Rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person
@@ -27,37 +27,19 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GUMMI_ENVIRONMENT_H
-#define GUMMI_ENVIRONMENT_H
-
-#include <glib.h>
-#include <libintl.h>
-
-#include "biblio.h"
-#include "editor.h"
-#include "importer.h"
-#include "iofunctions.h"
-#include "latex.h"
-#include "motion.h"
-#include "snippets.h"
-#include "tabmanager.h"
-#include "template.h"
+#include "gummi-context.h"
 #include "project.h"
+#include "tabmanager.h"
+#include "snippets.h"
+#include "template.h"
+#include "biblio.h"
+#include "latex.h"
+#include "iofunctions.h"
 
-#include "gui/gui-main.h"
+struct _GummiContext
+{
+    GObject parent_instance;
 
-#define _(T) gettext(T)
-
-/**
- * Gummi:
- *
- * Stores Gummi main context.
- */
-#define GUMMI(x) ((Gummi*)x)
-typedef struct _Gummi Gummi;
-
-struct _Gummi {
-    /*< private >*/
     GuEditor* editor;
     GuIOFunc* io;
     GuMotion* motion;
@@ -69,29 +51,45 @@ struct _Gummi {
     GummiProject* project;
 };
 
-Gummi* gummi_init (GuMotion* mo, GuIOFunc* io, GuLatex* latex, GuBiblio* bib,
-                   GuTemplate* tpl, GuSnippets* snip, GuTabmanager* tabm,
-                   GummiProject* proj);
-GuEditor* gummi_new_environment (const gchar* filename);
+G_DEFINE_TYPE (GummiContext, gummi_context, G_TYPE_OBJECT)
 
-/**
- * Following APIs is used to eliminate the need of exposing global Gummi to
- * non-GUI classes.
- * Please only use this functions if not avoidable.
- */
+static void
+gummi_context_dispose (GObject *gobject)
+{
+    G_OBJECT_CLASS (gummi_context_parent_class)->dispose (gobject);
+}
 
-gboolean gummi_project_active (void);
+static void
+gummi_context_finalize (GObject *gobject)
+{
+    G_OBJECT_CLASS (gummi_context_parent_class)->finalize (gobject);
+}
 
-GummiGui* gummi_get_gui (void);
-GuEditor* gummi_get_active_editor (void);
-GuIOFunc* gummi_get_io (void);
-GuMotion* gummi_get_motion (void);
-GuLatex* gummi_get_latex (void);
-GuBiblio* gummi_get_biblio (void);
-GuTemplate* gummi_get_template (void);
-GuSnippets* gummi_get_snippets (void);
+static void
+gummi_context_class_init (GummiContextClass *klass)
+{
 
-GList* gummi_get_all_tabs (void);
-GList* gummi_get_all_editors (void);
+}
 
-#endif /* GUMMI_ENVIRONMENT_H */
+static void
+gummi_context_init (GummiContext *self)
+{
+
+    self->motion = motion_init ();
+    self->io = iofunctions_init();
+    self->latex = latex_init ();
+    //GuBiblio* biblio = biblio_init (builder);
+    //GuTemplate* templ = template_init (builder);
+    self->tabmanager = tabmanager_init ();
+    self->project = project_init ();
+    self->snippets = snippets_init ();
+
+
+}
+
+GummiContext *
+gummi_context_new(void) {
+    return g_object_new (GUMMI_TYPE_CONTEXT,
+                         NULL);
+
+}

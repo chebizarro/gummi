@@ -584,7 +584,7 @@ void on_menu_projcreate_activate (GtkWidget *widget, void *user) {
 
     if (project_create_new (filename)) {
         projectgui_enable (gummi->project, gui->projectgui);
-        projectgui_list_projfiles (gummi->project->projfile);
+        //projectgui_list_projfiles (gummi->project->projfile);
     }
 }
 
@@ -597,7 +597,7 @@ void on_menu_projopen_activate (GtkWidget *widget, void *user) {
     if (project_open_existing (filename)) {
         statusbar_set_message (g_strdup_printf("Loading project %s", filename));
         projectgui_enable (gummi->project, gui->projectgui);
-        projectgui_list_projfiles (gummi->project->projfile);
+        projectgui_list_projfiles (gummi_project_get_file(gummi->project));
     }
     else {
         statusbar_set_message (g_strdup_printf("An error occurred while "
@@ -609,7 +609,7 @@ void on_menu_projopen_activate (GtkWidget *widget, void *user) {
 G_MODULE_EXPORT
 void on_menu_projclose_activate (GtkWidget *widget, void *user) {
 
-    if (!gummi->project->projfile) return;
+    if (!gummi_project_get_file(gummi->project)) return;
 
     if (project_close ()) {
         projectgui_disable (gummi->project, gui->projectgui);

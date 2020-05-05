@@ -30,10 +30,13 @@ static const GOptionEntry options[] = {
         { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
 };
 
-
 static void
 gummi_app_init (GummiApp *app)
 {
+    g_set_application_name ("gummi");
+
+    g_application_add_main_option_entries (G_APPLICATION (app), options);
+
 }
 
 static void

@@ -32,15 +32,17 @@
 
 #include <gtk/gtk.h>
 #include "gummi-app.h"
+#include "gummi-tab.h"
 
 
 #define GUMMI_APP_WINDOW_TYPE (gummi_app_window_get_type ())
 G_DECLARE_FINAL_TYPE (GummiAppWindow, gummi_app_window, GUMMI, APP_WINDOW, GtkApplicationWindow)
 
 
-GummiAppWindow       *gummi_app_window_new (GummiApp *app);
-void                 gummi_app_window_open (GummiAppWindow *win,
-                                            GFile *file);
+GummiAppWindow *gummi_app_window_new (GummiApp *app);
 
+void gummi_app_window_open (GummiAppWindow *win, GFile *file);
+
+GummiTab *gummi_app_window_create_tab (GummiAppWindow *window, gboolean jump_to);
 
 #endif //GUMMI_GUMMI_WINDOW_H

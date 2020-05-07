@@ -87,7 +87,7 @@ add_library(gummi
         libgummi/compile/rubber.h
         libgummi/compile/texlive.c
         libgummi/compile/texlive.h
-        )
+        libgummi/gummi-view.h libgummi/gummi-view.c libgummi/gummi-collection.c libgummi/gummi-collection.h)
 
 #target_link_libraries(libgummi)
 
@@ -153,11 +153,12 @@ add_executable(gummi-bin
         src/gummi-window.h
         src/prefs.c
         src/prefs.h
-        ${RESOURCE_FILE}
         src/gummi-context.c
         src/gummi-context.h
-        #src/gummi-commands-file.c
-        )
+        src/gummi-commands-file.c
+        src/gummi-tab.h
+        ${RESOURCE_FILE}
+        src/gummi-commands-private.h)
 
 target_link_libraries (gummi-bin ${GUMMI_LIBRARIES} gummi)
 

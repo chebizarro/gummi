@@ -32,6 +32,7 @@
 #include "gummi-app.h"
 #include "gummi-window.h"
 
+#include "gummi-commands-private.h"
 
 struct _GummiAppWindow
 {
@@ -148,6 +149,21 @@ gummi_app_window_new(GummiApp *app)
     return g_object_new (GUMMI_APP_WINDOW_TYPE, "application", app, NULL);
 }
 
+/**
+ * gummi_app_window_create_tab:
+ * @window: a #GummiAppWindow
+ * @jump_to: %TRUE to set the new #GummiTab as active
+ *
+ * Creates a new #GummiTab and adds it to the #GtkStack.
+ * In case @jump_to is %TRUE the #GtkStack switches to that new #GummiTab.
+ *
+ * Returns: (transfer none): a new #GummiTab
+ */
+GummiTab *gummi_app_window_create_tab (GummiAppWindow *window, gboolean jump_to) {
+    g_return_val_if_fail (GUMMI_IS_APP_WINDOW (window), NULL);
+
+}
+
 void
 gummi_app_window_open(GummiAppWindow *win,
                       GFile *file)
@@ -192,3 +208,5 @@ gummi_app_window_open(GummiAppWindow *win,
 
 
 }
+
+
